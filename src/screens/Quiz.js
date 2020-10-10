@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import {
   Text,
   TextInput,
@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+import {clearNotification, setNotification}from '../utils/notifications'
+
 import { connect, useSelector } from "react-redux";
 const Quiz = (props) => {
   const [currIndex, setcurrIndex] = useState(0);
@@ -14,12 +16,16 @@ const Quiz = (props) => {
   const [correctAnsCount, setcorrectAnsCount] = useState(0);
   const [isLastQuestion, setisLastQuestion] = useState(false);
   const selectedDeck = useSelector((state) => state.selectedDeck);
+
+  useEffect(()=>{
+    clearNotification().then(setNotification);
+  }, [])
+
+
   const goToNextAnswer = () => {
-    // const { questions } = selectedDeck;
     currIndex < questions.length - 1
       ? setcurrIndex((old) => old + 1)
       : setisLastQuestion(true);
-    // console.log(questions && questions.length, currIndex);
   };
   const reInitiatScreen = () => {
     setcorrectAnsCount(0);
@@ -28,58 +34,62 @@ const Quiz = (props) => {
     setanswerAppeard(false);
   };
   const { questions } = selectedDeck;
-  // const { currIndex, answerAppeard, correctAnsCount } = state;
-  // console.log(questions.length, currIndex);
+
+  
   return (
     <View style={styles.addCardContainer}>
-      <Text style={styles.question}>
-        {answerAppeard
-          ? questions[currIndex].answer
-          : questions[currIndex].question}
-      </Text>
-      <TouchableOpacity onPress={() => setanswerAppeard((old) => !old)}>
-        <Text style={styles.flipCard}>
-          {answerAppeard ? "Question" : "Answer"}
-        </Text>
-      </TouchableOpacity>
-      {isLastQuestion ? (
+      {questions.length > 0 ? (
         <>
-          <Text>
-            {correctAnsCount} / {questions.length} correct answers
+          <Text style={styles.question}>
+            {answerAppeard
+              ? questions[currIndex].answer
+              : questions[currIndex].question}
           </Text>
-          <TouchableOpacity onPress={() => reInitiatScreen()}>
-            <Text style={styles.correct}>Restart Quiz</Text>
+          <TouchableOpacity onPress={() => setanswerAppeard((old) => !old)}>
+            <Text style={styles.flipCard}>
+              {answerAppeard ? "Question" : "Answer"}
+            </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate("Details")}
-          >
-            <Text style={styles.incorrect}>Go To Deck</Text>
+          {isLastQuestion ? (
+            <>
+              <Text>
+                {correctAnsCount} / {questions.length} correct answers
+              </Text>
+              <TouchableOpacity onPress={() => reInitiatScreen()}>
+                <Text style={styles.correct}>Restart Quiz</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => props.navigation.navigate("Details")}
+              >
+                <Text style={styles.incorrect}>Go To Deck</Text>
+              </TouchableOpacity>
+            </>
+          ) : (
+            <>
+              <TouchableOpacity
+                onPress={() => {
+                  setcorrectAnsCount((old) => old + 1);
+                  goToNextAnswer();
+                }}
+              >
+                <Text style={styles.correct}>Correct!</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={goToNextAnswer}>
+                <Text style={styles.incorrect}>InCorrect!</Text>
+              </TouchableOpacity>
+            </>
+          )}
+          <TouchableOpacity>
+            <Text style={styles.submitQuestion}>Submit!</Text>
           </TouchableOpacity>
         </>
       ) : (
-        <>
-          <TouchableOpacity
-            onPress={() => {
-              setcorrectAnsCount((old) => old + 1);
-              goToNextAnswer();
-            }}
-          >
-            <Text style={styles.correct}>Correct!</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={goToNextAnswer}>
-            <Text style={styles.incorrect}>InCorrect!</Text>
-          </TouchableOpacity>
-        </>
+        <Text>Deck is empty, Please add some questions..!</Text>
       )}
-      <TouchableOpacity>
-        <Text style={styles.submitQuestion}>Submit!</Text>
-      </TouchableOpacity>
     </View>
   );
 };
-// const mapStateToProps = ({ selectedDeck }) => ({
-//   selectedDeck,
-// });
+
 export default Quiz;
 const styles = StyleSheet.create({
   addCardContainer: {
