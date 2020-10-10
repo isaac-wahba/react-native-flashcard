@@ -26,6 +26,7 @@ class CardDetails extends Component {
   }
 }
 
+
 export default CardDetails;
 
 const styles = StyleSheet.create({

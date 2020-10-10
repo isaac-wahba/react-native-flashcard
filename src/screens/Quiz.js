@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+
 import { connect, useSelector } from "react-redux";
 const Quiz = (props) => {
   const [currIndex, setcurrIndex] = useState(0);
