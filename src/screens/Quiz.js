@@ -22,8 +22,8 @@ const Quiz = (props) => {
     if (currIndex < questions.length - 1) {
       setcurrIndex((old) => old + 1);
     } else {
-    setisLastQuestion(true);
-    //clearNotification().then(setNotification);
+      clearNotification().then(setNotification);
+      setisLastQuestion(true);
     }
   };
   const reInitiatScreen = () => {
@@ -38,9 +38,9 @@ const Quiz = (props) => {
     <View style={styles.addCardContainer}>
       {questions.length > 0 ? (
         <>
-        <Text>
-                Question {currIndex +1 } / {questions.length} 
-              </Text>
+          <Text>
+            Question {currIndex + 1} / {questions.length}
+          </Text>
           <Text style={styles.question}>
             {answerAppeard
               ? questions[currIndex].answer
@@ -54,7 +54,8 @@ const Quiz = (props) => {
           {isLastQuestion ? (
             <>
               <Text>
-               Your score is {(correctAnsCount / questions.length*100).toFixed(2)} % 
+                Your score is{" "}
+                {((correctAnsCount / questions.length) * 100).toFixed(2)} %
               </Text>
               <TouchableOpacity onPress={() => reInitiatScreen()}>
                 <Text style={styles.correct}>Restart Quiz</Text>
@@ -80,7 +81,6 @@ const Quiz = (props) => {
               </TouchableOpacity>
             </>
           )}
-      
         </>
       ) : (
         <Text>Deck is empty, Please add some questions..!</Text>
