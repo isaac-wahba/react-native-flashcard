@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-import {clearNotification, setNotification}from '../utils/notifications'
+import { clearNotification, setNotification } from "../utils/notifications";
 
 import { connect, useSelector } from "react-redux";
 const Quiz = (props) => {
@@ -17,15 +17,14 @@ const Quiz = (props) => {
   const [isLastQuestion, setisLastQuestion] = useState(false);
   const selectedDeck = useSelector((state) => state.selectedDeck);
 
-  useEffect(()=>{
-    clearNotification().then(setNotification);
-  }, [])
-
-
   const goToNextAnswer = () => {
-    currIndex < questions.length - 1
-      ? setcurrIndex((old) => old + 1)
-      : setisLastQuestion(true);
+    setanswerAppeard(false);
+    if (currIndex < questions.length - 1) {
+      setcurrIndex((old) => old + 1);
+    } else {
+    setisLastQuestion(true);
+    //clearNotification().then(setNotification);
+    }
   };
   const reInitiatScreen = () => {
     setcorrectAnsCount(0);
@@ -35,11 +34,13 @@ const Quiz = (props) => {
   };
   const { questions } = selectedDeck;
 
-  
   return (
     <View style={styles.addCardContainer}>
       {questions.length > 0 ? (
         <>
+        <Text>
+                Question {currIndex +1 } / {questions.length} 
+              </Text>
           <Text style={styles.question}>
             {answerAppeard
               ? questions[currIndex].answer
@@ -53,7 +54,7 @@ const Quiz = (props) => {
           {isLastQuestion ? (
             <>
               <Text>
-                {correctAnsCount} / {questions.length} correct answers
+               Your score is {(correctAnsCount / questions.length*100).toFixed(2)} % 
               </Text>
               <TouchableOpacity onPress={() => reInitiatScreen()}>
                 <Text style={styles.correct}>Restart Quiz</Text>
@@ -79,9 +80,7 @@ const Quiz = (props) => {
               </TouchableOpacity>
             </>
           )}
-          <TouchableOpacity>
-            <Text style={styles.submitQuestion}>Submit!</Text>
-          </TouchableOpacity>
+      
         </>
       ) : (
         <Text>Deck is empty, Please add some questions..!</Text>

@@ -5,6 +5,8 @@ import {
   View,
   StyleSheet,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform
 } from "react-native";
 import { connect } from "react-redux";
 import { addCard } from "../actions/card";
@@ -22,7 +24,7 @@ class AddCard extends Component {
   handleSubmit = () => {
     this.props.addCard(this.state.card, this.props.selectedDeck.id);
 
-    this.props.navigation.navigate("List");
+    this.props.navigation.push("Details");
   };
   render() {
     return (
@@ -38,9 +40,14 @@ class AddCard extends Component {
           placeholder="Type the answer here.."
           onChangeText={(text) => this.handleChange("answer", text)}
         />
-        <TouchableOpacity onPress={this.handleSubmit}>
-          <Text style={styles.submitQuestion}>Add Question!</Text>
-        </TouchableOpacity>
+        <KeyboardAvoidingView
+        style={{flex:1}}
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+        >
+          <TouchableOpacity onPress={this.handleSubmit}>
+            <Text style={styles.submitQuestion}>Add Question!</Text>
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
       </View>
     );
   }

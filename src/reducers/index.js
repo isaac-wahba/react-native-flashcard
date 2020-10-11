@@ -27,7 +27,7 @@ export default function deckReducer(state = initialState, action) {
       };
       return {
         ...state,
-        decks: [...state.decks, newDeck],
+        decks: [...state.decks, action.newDeck],
       };
     case ADD_NEW_CARD:
       // return state;
