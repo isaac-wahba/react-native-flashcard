@@ -11,7 +11,7 @@ class CardDetails extends Component {
         <Text style={{ fontSize: 50, color: "gray" }}>Cards Number: 2</Text>
 
         <TouchableOpacity>
-          <Text style={styles.addCard}>Add Card</Text>
+          <Text style={styles.saveCard}>Add Card</Text>
         </TouchableOpacity>
 
         <TouchableOpacity>
@@ -30,7 +30,7 @@ class CardDetails extends Component {
 export default CardDetails;
 
 const styles = StyleSheet.create({
-  addCard: {
+  saveCard: {
     marginTop: 16,
     paddingVertical: 8,
     borderWidth: 4,

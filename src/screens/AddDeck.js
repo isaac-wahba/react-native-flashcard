@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { connect } from "react-redux";
-import { addNewDeck, selectDeck } from "../actions/decks";
+import { saveNewDeck, selectDeck } from "../actions/decks";
 
 
 class AddDeck extends Component {
@@ -17,7 +17,7 @@ class AddDeck extends Component {
 
 
   render() {
-    const { addNewDeck, navigation , selectDeck, decks} = this.props;
+    const { saveNewDeck, navigation , selectDeck, decks} = this.props;
     return (
       <View style={styles.addCardContainer}>
         <Text style={styles.tip}>What is the title of the new Deck ...? </Text>
@@ -35,7 +35,7 @@ class AddDeck extends Component {
         id: (decks.length + 1).toString(),
         questions: [],
       };
-             addNewDeck(newDeck);
+             saveNewDeck(newDeck);
            selectDeck(newDeck);
            navigation.navigate("Details");
           }}
@@ -51,7 +51,7 @@ const mapStateToProps = ({ decks }) => ({
   decks,
 });
 
-export default connect(mapStateToProps, { addNewDeck, selectDeck })(AddDeck);
+export default connect(mapStateToProps, { saveNewDeck, selectDeck })(AddDeck);
 
 const styles = StyleSheet.create({
   addCardContainer: {

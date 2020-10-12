@@ -35,7 +35,7 @@ const Quiz = (props) => {
   const { questions } = selectedDeck;
 
   return (
-    <View style={styles.addCardContainer}>
+    <View style={styles.saveCardContainer}>
       {questions.length > 0 ? (
         <>
           <Text>
@@ -91,7 +91,7 @@ const Quiz = (props) => {
 
 export default Quiz;
 const styles = StyleSheet.create({
-  addCardContainer: {
+  saveCardContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

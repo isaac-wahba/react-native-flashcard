@@ -9,7 +9,7 @@ import {
   Platform
 } from "react-native";
 import { connect } from "react-redux";
-import { addCard } from "../actions/card";
+import { saveCard } from "../actions/card";
 
 class AddCard extends Component {
   state = {
@@ -22,13 +22,13 @@ class AddCard extends Component {
     this.setState({ card: { ...this.state.card, [name]: value } });
   };
   handleSubmit = () => {
-    this.props.addCard(this.state.card, this.props.selectedDeck.id);
+    this.props.saveCard(this.state.card, this.props.selectedDeck.id);
 
     this.props.navigation.push("Details");
   };
   render() {
     return (
-      <View style={styles.addCardContainer}>
+      <View style={styles.saveCardContainer}>
         <Text style={styles.tip}>What is the question you want to add? </Text>
         <TextInput
           style={styles.textInputs}
@@ -57,10 +57,10 @@ const mapStateToProps = ({ selectedDeck }) => ({
   selectedDeck,
 });
 
-export default connect(mapStateToProps, { addCard })(AddCard);
+export default connect(mapStateToProps, { saveCard })(AddCard);
 
 const styles = StyleSheet.create({
-  addCardContainer: {
+  saveCardContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",

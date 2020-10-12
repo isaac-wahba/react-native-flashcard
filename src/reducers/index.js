@@ -1,14 +1,21 @@
-import { DELETE_DECK, GET_DECKS, ADD_NEW_DECK } from "../actions/decks";
+import {
+  DELETE_DECK,
+  SET_DECKS,
+  ADD_NEW_DECK,
+  DECKS_LOADING,
+  DECKS_NOT_LOADING,
+} from "../actions/decks";
 import { ADD_NEW_CARD } from "../actions/card";
 import { SELECT_DECK } from "../actions/decks";
 import { decks } from "../utils/_Data";
 const initialState = {
-  decks: decks,
+  decks: [],
   selectedDeck: {},
+  loading: false,
 };
 export default function deckReducer(state = initialState, action) {
   switch (action.type) {
-    case GET_DECKS:
+    case SET_DECKS:
       return {
         ...state,
         ...action.decks,
@@ -18,7 +25,7 @@ export default function deckReducer(state = initialState, action) {
         return item.id !== action.deckId;
       });
       return { ...state, decks: filtersDecks };
-  
+
     case ADD_NEW_DECK:
       let newDeck = {
         title: action.newDeck,
@@ -38,6 +45,17 @@ export default function deckReducer(state = initialState, action) {
     // working actions
     case SELECT_DECK:
       return { ...state, selectedDeck: action.deck };
+
+    case DECKS_LOADING:
+      return {
+        ...state,
+        loading: true,
+      };
+    case DECKS_NOT_LOADING:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

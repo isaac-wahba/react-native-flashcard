@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 import { connect } from "react-redux";
-import { deleteDeck } from "../actions/decks";
+import { removeDeck } from "../actions/decks";
 class DeckDetails extends Component {
   render() {
     const {
       navigation,
       selectedDeck: { title, questions, id },
-      deleteDeck,
+      removeDeck,
     } = this.props;
     return (
       <View>
@@ -25,7 +25,7 @@ class DeckDetails extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            deleteDeck(id);
+            removeDeck(id);
             navigation.navigate("List");
           }}
         >
@@ -38,7 +38,7 @@ class DeckDetails extends Component {
 const mapStateToProps = ({ selectedDeck }) => ({
   selectedDeck,
 });
-export default connect(mapStateToProps, { deleteDeck })(DeckDetails);
+export default connect(mapStateToProps, { removeDeck })(DeckDetails);
 const styles = StyleSheet.create({
   addCard: {
     marginTop: 16,
